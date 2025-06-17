@@ -1,0 +1,52 @@
+# --- Core dependencies ---
+fastapi
+uvicorn[standard]
+streamlit
+requests
+
+# --- AI / NLP / LLM ---
+transformers
+huggingface-hub
+langchain
+pydantic
+faker
+google-generativeai
+
+# --- Whisper ---
+faster-whisper
+torch
+torchaudio
+
+# --- Text-to-speech ---
+edge-tts
+pydub
+
+# --- Audio recording & handling ---
+sounddevice
+scipy
+
+# --- PDF generation ---
+reportlab
+
+# --- Caching & OS utilities ---
+aiofiles
+ffmpeg-python
+
+# --- UI / Interactivity ---
+streamlit-modal
+altair
+matplotlib
+pandas
+
+# --- Auth & Security ---
+passlib
+
+# --- Database ---
+pymongo
+redis
+
+# --- Typing and Dev ---
+typing-extensions
+
+# --- Environment variables ---
+python-dotenv
