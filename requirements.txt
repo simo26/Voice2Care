@@ -41,6 +41,7 @@ pandas
 
 # --- Auth & Security ---
 passlib
+bcrypt
 
 # --- Database ---
 pymongo
