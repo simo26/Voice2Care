@@ -3,6 +3,7 @@ fastapi
 uvicorn[standard]
 streamlit
 requests
+python-multipart
 
 # --- AI / NLP / LLM ---
 transformers
