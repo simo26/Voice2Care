@@ -33,7 +33,6 @@ Voice2Care nasce dunque per ridurre il carico cognitivo del personale sanitario,
 
 ```bash
 git clone https://github.com/simo26/voice2care.git
-cd voice2care
 ```
 ### 2. Creazione ed attivazione di un ambiente virtuale Python
 
