@@ -1,0 +1,69 @@
+
+# Bytecode e cache Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Ambiente virtuale
+.env/
+.venv/
+env/
+venv/
+ENV/
+
+# Configurazioni ed editor
+*.swp
+*.swo
+*.bak
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# File temporanei
+*.tmp
+*.temp
+*.~ 
+*.old
+
+# Output audio/video/pdf
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.pdf
+
+# File di test e trascrizioni
+*.json
+*.txt
+*.csv
+
+# Output di Streamlit
+.streamlit/
+
+# FastAPI - upload temporanei
+uploads/
+media/
+tmp/
+
+# Token/API keys o config sensibili
+*.env
+.env.*
+
+# Cache vari
+.cache/
+*.db
+*.sqlite3
+
+# PyInstaller / Build
+build/
+dist/
+*.spec
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Redis dump
+dump.rdb
