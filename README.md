@@ -29,7 +29,7 @@ Voice2Care nasce dunque per ridurre il carico cognitivo del personale sanitario,
 
 ## ⚙️ Installazione (Terminale VS Code)
 
-### 1. Clona il repository
+### 1. Clonare il repository
 
 ```bash
 git clone https://github.com/simo26/voice2care.git
@@ -45,14 +45,14 @@ source .venv/bin/activate  # (Linux/macOS)
 .venv\Scripts\activate     # (Windows)
 ```
 
-### 3. Installa le dipendenze
+### 3. Installazione delle dipendenze
 
 ```bash
 pip install -r requirements.txt
 ```
 
 ⚠️ Nota importante:
-Il pacchetto av (richiesto da modello di faster-whisper) necessita di:
+Il pacchetto av (richiesto per il modello di faster-whisper) necessita di:
 
 - FFmpeg installato sul sistema
 - Strumenti di sviluppo: pkg-config, build-essential, Cython, gcc, ecc.
@@ -67,15 +67,15 @@ pip install cython
 
 Windows:
 
-1.Scarica FFmpeg e aggiungilo al PATH.
-2.Installa il compilatore Visual C++ tramite Build Tools for Visual Studio
-3.Installa Cython:
+- 1.Scarica FFmpeg e aggiungilo al PATH.
+- 2.Installa il compilatore Visual C++ tramite Build Tools for Visual Studio
+- 3.Installa Cython:
 
 ```bash
 pip install cython
 ```
 
-### 4. Configura le variabili d'ambiente
+### 4. Configurazione delle variabili d'ambiente
 
 Crea un file `.env` partendo da quello di esempio `.env.example` fornito nel repository:
 
@@ -84,21 +84,28 @@ cp .env.example .env  # Su macOS
 copy .env.example .env  # Su Windows (cmd)
 ```
 
-Compila i valori mancanti (come HF_TOKEN, API_KEY_GEMINI, ecc.).
+Compila i valori mancanti: 
+- HF_TOKEN: https://huggingface.co
+- API_KEY_GEMINI: https://aistudio.google.com
+- CHAT_ID:
+- DB_PASSWORD: Fornita all'interno dello stesso file di esempio
+
+### redis
 
 ### 5. ⚙️ Avvio del Backend
 
-Hai due opzioni per avviare il backend FastAPI:
+Il backend FastAPI può essere eseguito in due modalità, a seconda delle risorse disponibili e della preferenza per modelli remoti o locali:
 
 🔁 **Opzione 1 — API Hugging Face (whisper-large-v3-turbo)**  
+Questa modalità sfrutta le API degl'Inference Provider di Hugging Face, ideale per ambienti leggeri.
 Usa questa modalità se vuoi evitare l’uso locale di modelli pesanti.
 
 ```bash
 uvicorn backend.main_whisper_api:app --reload
 ```
 
-⚡ **Opzione 2 — Faster-Whisper (modello locale)**
-Usa questa modalità se hai risorse computazionali adeguate (es. GPU).
+⚡ **Opzione 2 — Faster-Whisper "medium" (modello locale)**
+Questa modalità utilizza Faster-Whisper in esecuzione locale per la trascrizione, sfruttando la potenza della GPU (se disponibile).
 
 ```bash
 uvicorn backend.main_whisper_model:app --reload
@@ -113,6 +120,6 @@ Lancia l’interfaccia utente:
 ```bash
 streamlit run app.py
 ```
-
+### 
 
 
