@@ -173,6 +173,11 @@ Lancia l’interfaccia utente:
 ```bash
 streamlit run app.py
 ```
-### 
+All'avvio della dashboard, verranno chiedere le credenziali di accesso dell'operatore sanitario (medico) che vuole interagire con l'applivatico:
+<img width="929" alt="Screenshot 2025-06-20 alle 12 56 50" src="https://github.com/user-attachments/assets/3cd851fe-81e9-4724-8b07-c6257f0d8ce3" />
+
+Per accedervi, ecco alcune credenziali di esempio valide:
+marco.verdi@asl.it       giulia.bianchi@asl.it
+Sicura456                PasswordMedico123
 
 
