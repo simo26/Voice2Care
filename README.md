@@ -178,7 +178,7 @@ streamlit run app.py
 
 All'avvio della dashboard verranno richieste le credenziali di accesso dell'operatore sanitario (medico) che desidera interagire con l'applicativo:
 
-<img width="500" alt="Screenshot della schermata di login" src="https://github.com/user-attachments/assets/3cd851fe-81e9-4724-8b07-c6257f0d8ce3" />
+<img width="600" alt="Screenshot della schermata di login" src="https://github.com/user-attachments/assets/3cd851fe-81e9-4724-8b07-c6257f0d8ce3" />
 
 ### Credenziali di esempio
 
