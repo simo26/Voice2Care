@@ -31,13 +31,13 @@ uri = f"mongodb+srv://alessia00m:{DB_PASSWORD}@cluster0.7if8c41.mongodb.net/?ret
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 # Seleziona il database "dati_clinici"
-db = client["dati_clinici"]
+db = client["Voice2Care"]
 
 # Seleziona la collezione "pazienti" (documenti relativi ai pazienti)
 pazienti_collection = db["pazienti"]
 
 # Seleziona la collezione "interventi" (documenti relativi a interventi clinici o di emergenza)
-interventi_collection = db["interventi"]
+interventi_collection = db["referti_ps"]
 
 
 
@@ -112,7 +112,7 @@ if "utente" not in st.session_state: #se l'utente non è ancora loggato, si va a
     password = st.text_input("Password", type="password") #campo input password
 
     if st.button("Accedi"): #se viene cliccato il tasto accedi si cerca nel database "utenti" la mail inserita
-        utenti = db["utenti"]
+        utenti = db["operatori_sanitari"]
         user = utenti.find_one({"email": email})
         if user and bcrypt.verify(password, user["password_hash"]): #se l'utente esiste e la password coincide con l'hash salvato nel database
             st.session_state["utente"] = user #viene salvato l'utente nella sessione e si passa alla pagina principale
@@ -575,7 +575,7 @@ elif page == "Visualizza Referti":
             st.warning("Formato data non valido. Usa AAAA-MM-GG.")
 
     st.markdown("---")
-    results = list(interventi_collection.find(query).sort("_id", -1).limit(20))
+    results = list(interventi_collection.find(query).sort("_id", -1))
     
     
     # Mostra i referti risultanti
@@ -590,11 +590,11 @@ elif page == "Visualizza Referti":
                 st.markdown(f"### Referto di {paziente.get('nome', 'N/A')} {paziente.get('cognome', '')}")
             with right_col:
                 b1, b2, b3 = st.columns(3)
-                with b1:
+                with b2:
                     if st.button("👁️ View", key=f"view_{idx}"):
                         st.session_state["selected_referto"] = r
                         modal.open()
-                with b2:
+                with b3:
                     if st.button("✏️ Edit", key=f"edit_{idx}"):
                         st.session_state["selected_referto"] = r
                         st.session_state["action"] = "edit"
