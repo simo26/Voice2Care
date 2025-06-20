@@ -734,6 +734,10 @@ elif page == "Analitiche Avanzate":
             }
         ]))
 
+        # Converti ObjectId in stringa per evitare errori con PyArrow
+        for r in risultati:
+            r["_id"] = str(r["_id"])
+
         df = pd.DataFrame(risultati)
         df = df.rename(columns={"_id": "Medico ID", "numero_referti": "Numero referti", "medico_nome": "Medico curante"})
 
