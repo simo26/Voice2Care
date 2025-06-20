@@ -158,7 +158,7 @@ if page == "Home":
 
     La piattaforma combina funzionalità AI di trascrizione e generazione con strumenti per l'analisi e l'archiviazione sicura dei dati.
 
-    Il progetto è consultabile al seguente link: 
+    Il progetto è consultabile al seguente repo: https://github.com/simo26/Voice2Care/tree/main 
     """)
 
 
@@ -594,11 +594,6 @@ elif page == "Visualizza Referti":
                     if st.button("👁️ View", key=f"view_{idx}"):
                         st.session_state["selected_referto"] = r
                         modal.open()
-                with b3:
-                    if st.button("✏️ Edit", key=f"edit_{idx}"):
-                        st.session_state["selected_referto"] = r
-                        st.session_state["action"] = "edit"
-                        st.experimental_rerun()
                 with b3:
                     st.download_button(
                         label="📄 PDF",
