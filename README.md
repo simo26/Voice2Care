@@ -93,13 +93,13 @@ Compila i valori mancanti:
 
 Per abilitare l'utilizzo di Redis:
 
-## Windows
+#### Windows
 - 1.Installa Redis localmente:
 
 ```bash
 wsl --install
 ```
-uesto installerà Ubuntu su WSL2 e riavvierà il computer. 
+Questo installerà Ubuntu su WSL2 e riavvierà il computer. 
 Dopo il riavvio, segui la configurazione iniziale (nome utente e password).
 
 - 2.Apri Ubuntu (WSL) e aggiorna i pacchetti
@@ -123,7 +123,7 @@ redis-cli ping
 
 Risposta attesa: PONG
 
-## MacOS
+#### MacOS
 
 - 1.Installa Redis tramite Homebrew
   
