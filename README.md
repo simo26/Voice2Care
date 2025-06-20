@@ -93,7 +93,7 @@ Compila i valori mancanti:
 
 Per abilitare Redis:
 
-- 1. Installa Redis localmente:
+- 1.Installa Redis localmente:
 
  ```bash
 wsl --install in WSL
@@ -101,13 +101,13 @@ sudo apt udapte
 sudo apt install redis-server
 ```
 
-- 2. Avvia Redis
+- 2.Avvia Redis
 
  ```bash
 sudo service redis-server start
 ```
 
-- 3. Verifica che Redis sia attivo
+- 3.Verifica che Redis sia attivo
 
  ```bash
 sudo service redis-server start
