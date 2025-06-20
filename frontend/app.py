@@ -726,21 +726,22 @@ elif page == "Analitiche Avanzate":
     if query_option == "Numero referti per medico curante":
         risultati = list(interventi_collection.aggregate([
             {
-                "$group":{
-                    "_id": "$medico_curante.medico_nome",
-                    "conteggio": {"$sum":1}
+                "$group": {
+                    "_id": "$medico_curante.medico_id",
+                    "numero_referti": {"$sum": 1},
+                    "medico_nome": {"$first": "$medico_curante.medico_nome"}
                 }
             }
         ]))
 
         df = pd.DataFrame(risultati)
-        df = df.rename(columns={"_id": "Medico curante", "conteggio": "Numero referti"})
+        df = df.rename(columns={"_id": "Medico ID", "numero_referti": "Numero referti", "medico_nome": "Medico curante"})
 
         # Grafico con Altair
         chart = alt.Chart(df).mark_bar().encode(
             x=alt.X('Medico curante:N', axis=alt.Axis(labelAngle=0)),  # etichette orizzontali
             y='Numero referti:Q'
-        ).properties(title="Numero referti per medico curante",width=600, height=400)
+        ).properties(title="Numero referti per medico curante", width=600, height=400)
 
         st.altair_chart(chart, use_container_width=True)
 
