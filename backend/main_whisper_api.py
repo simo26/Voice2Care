@@ -58,6 +58,7 @@ def notify_red_code(structured_data):
                 return
 
             # Serializza i dati e pubblica sul canale Redis
+            print("[Redis] Connessione attiva, sistema di notifiche attivo.")
             serialized = json.dumps(structured_data, default=serialize_dates)
             r.publish("codice_rosso", serialized)
 
