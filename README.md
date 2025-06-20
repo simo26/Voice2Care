@@ -86,7 +86,7 @@ copy .env.example .env  # Su Windows (cmd)
 Compila i valori mancanti: 
 - HF_TOKEN: https://huggingface.co
 - API_KEY_GEMINI: https://aistudio.google.com
-- CHAT_ID:l'id della tua chat ottenibile inviando un messaggio al bot @CodiceRossoBot; successivamente estrapola chat id da: https://api.telegram.org/bot7935276594:AAHNX091qdRxR4W9kYyqi7G8H_Y_5f5ADsE/getUpdates
+- CHAT_ID: l'id della tua chat ottenibile inviando un messaggio al bot @CodiceRossoBot; successivamente estrapola "id" della chat da: https://api.telegram.org/bot7935276594:AAHNX091qdRxR4W9kYyqi7G8H_Y_5f5ADsE/getUpdates
 - DB_PASSWORD: Fornita all'interno dello stesso file di esempio
 
 ### 5. Configurazione Redis
