@@ -43,7 +43,7 @@ for message in sub.listen():
             cognome = data.get("paziente", {}).get("cognome", "")
             luogo = data.get("chiamata_ps", {}).get("luogo_intervento", "ignoto")
 
-            testo = f"CODICE ROSSO\n Paziente: {nome} {cognome}\n Luogo:{luogo}"
+            testo = f"CODICE ROSSO\n Paziente: {nome} {cognome}\n Luogo Intervento:{luogo}"
             print("invio alert Telegram:", testo)
             send_tg(testo)
         except Exception as e:
