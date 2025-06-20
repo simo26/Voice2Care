@@ -89,9 +89,31 @@ Compila i valori mancanti:
 - CHAT_ID:
 - DB_PASSWORD: Fornita all'interno dello stesso file di esempio
 
-### redis
+### 5. Configurazione Redis
 
-### 5. ⚙️ Avvio del Backend
+Per abilitare Redis:
+
+- 1. Installa Redis localmente:
+
+ ```bash
+wsl --install in WSL
+sudo apt udapte
+sudo apt install redis-server
+```
+
+- 2. Avvia Redis
+
+ ```bash
+sudo service redis-server start
+```
+
+- 3. Verifica che Redis sia attivo
+
+ ```bash
+sudo service redis-server start
+```
+
+### 6. ⚙️ Avvio del Backend
 
 Il backend FastAPI può essere eseguito in due modalità, a seconda delle risorse disponibili e della preferenza per modelli remoti o locali:
 
@@ -112,7 +134,7 @@ uvicorn backend.main_whisper_model:app --reload
 
 Verifica che torch.cuda.is_available() sia True per sfruttare la GPU.
 
-### 6. 🎛️ Avvio del Frontend (Streamlit)
+### 7. 🎛️ Avvio del Frontend (Streamlit)
 
 Lancia l’interfaccia utente:
 
