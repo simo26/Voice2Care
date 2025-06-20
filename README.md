@@ -86,22 +86,30 @@ copy .env.example .env  # Su Windows (cmd)
 Compila i valori mancanti: 
 - HF_TOKEN: https://huggingface.co
 - API_KEY_GEMINI: https://aistudio.google.com
-- CHAT_ID:
+- CHAT_ID:l'id della tua chat ottenibile inviando un messaggio al bot @CodiceRossoBot; successivamente estrapola chat id da: https://api.telegram.org/bot7935276594:AAHNX091qdRxR4W9kYyqi7G8H_Y_5f5ADsE/getUpdates
 - DB_PASSWORD: Fornita all'interno dello stesso file di esempio
 
 ### 5. Configurazione Redis
 
-Per abilitare Redis:
+Per abilitare l'utilizzo di Redis:
 
+## Windows
 - 1.Installa Redis localmente:
 
- ```bash
-wsl --install in WSL
+```bash
+wsl --install
+```
+uesto installerà Ubuntu su WSL2 e riavvierà il computer. 
+Dopo il riavvio, segui la configurazione iniziale (nome utente e password).
+
+- 2.Apri Ubuntu (WSL) e aggiorna i pacchetti
+  
+```bash
 sudo apt udapte
 sudo apt install redis-server
 ```
 
-- 2.Avvia Redis
+- 3.Avvia Redis
 
  ```bash
 sudo service redis-server start
@@ -110,8 +118,32 @@ sudo service redis-server start
 - 3.Verifica che Redis sia attivo
 
  ```bash
-sudo service redis-server start
+redis-cli ping
 ```
+
+Risposta attesa: PONG
+
+## MacOS
+
+- 1.Installa Redis tramite Homebrew
+  
+ ```bash
+brew install redis
+```
+
+- 2.Avvia Redis
+  
+ ```bash
+redis-server
+```
+
+- 3.Verifica che Redis sia attivo
+  
+ ```bash
+redis-cli ping
+```
+Risposta attesa: PONG
+
 
 ### 6. ⚙️ Avvio del Backend
 
