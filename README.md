@@ -174,7 +174,6 @@ Lancia l’interfaccia utente:
 streamlit run app.py
 ```
 
-## Accesso alla Dashboard
 
 All'avvio della dashboard verranno richieste le credenziali di accesso dell'operatore sanitario (medico) che desidera interagire con l'applicativo:
 
