@@ -123,6 +123,8 @@ redis-cli ping
 
 Risposta attesa: PONG
 
+- 4.Eseguire il file alert_subscriber.py
+
 #### MacOS
 
 - 1.Installa Redis tramite Homebrew
@@ -144,6 +146,7 @@ redis-cli ping
 ```
 Risposta attesa: PONG
 
+- 4.Eseguire il file alert_subscriber.py
 
 ### 6. ⚙️ Avvio del Backend
 
