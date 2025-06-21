@@ -160,6 +160,8 @@ Usa questa modalità se vuoi evitare l’uso locale di modelli pesanti.
 uvicorn backend.main_whisper_api:app --reload
 ```
 
+**NOTA: whisper-large-v3-turbo via API non supporta la trascrizione di audio in formato .m4a!**
+
 ⚡ **Opzione 2 — Faster-Whisper "medium" (modello locale)**
 Questa modalità utilizza Faster-Whisper in esecuzione locale per la trascrizione, sfruttando la potenza della GPU (se disponibile).
 
