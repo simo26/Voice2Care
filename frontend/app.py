@@ -13,26 +13,10 @@ from datetime import datetime, date, time  #Per gestire date e orari
 import os
 
 from utilities import genera_pdf, clean_value  # Funzioni personalizzate per generazione PDF e pulizia dati
-
-from dotenv import load_dotenv  # Per caricare le variabili d'ambiente dal file .env
-
-# Carica le variabili dal file .env
-load_dotenv()
-
-# Leggi la varibile di ambiente dell'API Key per Gemini 
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-
-#Collegamento al database MongoDB Atlas
-
-# URI di connessione a MongoDB Atlas (contiene username, password, host, e opzioni)
-uri = f"mongodb+srv://alessia00m:{DB_PASSWORD}@cluster0.7if8c41.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-# Crea un client MongoDB specificando l'API del server
+#collegamento a mongoDB
+uri = "mongodb+srv://alessia00m:Password1234@cluster0.7if8c41.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(uri, server_api=ServerApi('1'))
-
-# Seleziona il database "dati_clinici"
-db = client["Voice2Care"]
-
+db = client["Voice2Care"] #connessione al database di dati clinici
 # Seleziona la collezione "pazienti" (documenti relativi ai pazienti)
 pazienti_collection = db["pazienti"]
 
@@ -158,7 +142,7 @@ if page == "Home":
 
     La piattaforma combina funzionalità AI di trascrizione e generazione con strumenti per l'analisi e l'archiviazione sicura dei dati.
 
-    Il progetto è consultabile al seguente repo: https://github.com/simo26/Voice2Care/tree/main 
+    Il progetto è consultabile al seguente link: 
     """)
 
 
@@ -537,61 +521,55 @@ elif page == "Nuovo Referto":
 
 
 #SEZIONE "VISUALIZZA REFERTI"
+# Sezione "VISUALIZZA REFERTI"
 elif page == "Visualizza Referti":
     st.header("📋 Referti Salvati")
 
     st.markdown("Filtri disponibili:")
-
-    # Filtro per ottenere referti associati al medico corrente
     solo_miei = st.checkbox("Visualizza solo i miei referti")
-
     query = {}
     if solo_miei:
         query["medico_curante.medico_id"] = st.session_state["utente"]["_id"]
 
-    # Filtro per cognome paziente
     cognome_paziente = st.text_input("Cognome Paziente")
     if cognome_paziente:
-        matching_pazienti = list(pazienti_collection.find({
-        "cognome": {"$regex": f"^{cognome_paziente}", "$options": "i"}
-    }))
-
+        matching_pazienti = list(pazienti_collection.find({"cognome": {"$regex": f"^{cognome_paziente}", "$options": "i"}}))
         matching_ids = [p["_id"] for p in matching_pazienti]
-        if matching_ids: #se gli id corrispondono
-            query["paziente_id"] = {"$in": matching_ids}
-        else:
-            query["paziente_id"] = {"$in": []}
+        query["paziente_id"] = {"$in": matching_ids} if matching_ids else {"$in": []}
 
-
-    # Filtro per data (in `chiamata_ps.data`)
     data_visita = st.text_input("Data intervento (formato: AAAA-MM-GG)")
     if data_visita:
         try:
             data_obj = datetime.strptime(data_visita, "%Y-%m-%d").date()
-            start = datetime.combine(data_obj, time.min)  # 00:00
-            end = datetime.combine(data_obj, time.max)   # 23:59:59.999999
+            start = datetime.combine(data_obj, time.min)
+            end = datetime.combine(data_obj, time.max)
             query["chiamata_ps.data"] = {"$gte": start, "$lt": end}
         except ValueError:
             st.warning("Formato data non valido. Usa AAAA-MM-GG.")
 
     st.markdown("---")
     results = list(interventi_collection.find(query).sort("_id", -1))
-    
-    
-    # Mostra i referti risultanti
-    if results:
-        for idx, r in enumerate(results):
-            # Layout
-            left_col, right_col = st.columns([6, 3]) 
+    pazienti_ids = [r["paziente_id"] for r in results]
+    pazienti_map = {p["_id"]: p for p in pazienti_collection.find({"_id": {"$in": pazienti_ids}})}
 
-            paziente = pazienti_collection.find_one({"_id":r["paziente_id"]}) or {}
+    page_size = 10
+    total_pages = (len(results) + page_size - 1) // page_size
+    current_page = st.number_input("Pagina", min_value=1, max_value=total_pages, value=1, step=1)
+    start_idx = (current_page - 1) * page_size
+    end_idx = start_idx + page_size
+
+    if results:
+        for idx, r in enumerate(results[start_idx:end_idx]):
+            left_col, right_col = st.columns([6, 3])
+            paziente = pazienti_map.get(r["paziente_id"], {})
             paziente.pop("_id", None)
             with left_col:
                 st.markdown(f"### Referto di {paziente.get('nome', 'N/A')} {paziente.get('cognome', '')}")
             with right_col:
                 b1, b2, b3 = st.columns(3)
                 with b2:
-                    if st.button("👁️ View", key=f"view_{idx}"):
+                    if st.button("👁️ View", key=f"view_{start_idx + idx}"):
+                        r["paziente_data"] = paziente
                         st.session_state["selected_referto"] = r
                         modal.open()
                 with b3:
@@ -600,68 +578,47 @@ elif page == "Visualizza Referti":
                         data=genera_pdf(r, paziente),
                         file_name=f"referto_{paziente.get('cognome', 'unknown')}.pdf",
                         mime="application/pdf",
-                        key=f"pdf_download_{idx}"
+                        key=f"pdf_download_{start_idx + idx}"
                     )
-
-
-            #Dettagli del referto mostrati in anteprima
             st.markdown(f"🕒 Ora PS: **{r.get('chiamata_ps', {}).get('ora_arrivo_ps', '-') }** | 📍 Luogo: **{r.get('chiamata_ps', {}).get('luogo_intervento', '-') }**")
             st.markdown(f"👨‍⚕️ Medico: {r.get('medico_curante', {}).get('medico_nome', 'Sconosciuto')}")
             st.markdown(f"🩺 Condizione Riferita: *{r.get('chiamata_ps', {}).get('condizione_riferita', '')}*")
             st.markdown("---")
-        
+
     else:
         st.markdown("### ❌ Nessun risultato trovato con i filtri selezionati.")
 
-
-
-    # Se la modale viene aperta tramite il bottone VIEW
     if modal.is_open():
         with modal.container():
             r = st.session_state.get("selected_referto")
             if r:
-                # Recupero il paziente referenziato tramite paziente_id
-                paziente = pazienti_collection.find_one({"_id": r["paziente_id"]}) or {}
-                paziente.pop("_id", None)  # Rimuovi _id per evitare problemi di visualizzazione
-
-                # Sezioni del referto
-                render_section("🚑 Chiamata PS", r.get("chiamata_ps", {}), expected_fields["chiamata_ps"])
-                st.markdown("<br>", unsafe_allow_html=True)
-
-                render_section("👮 Autorità Presenti", r.get("autorita_presenti", {}), expected_fields["autorita_presenti"])
-                st.markdown("<br>", unsafe_allow_html=True)
-
-                render_section("🧑 Dati Paziente", paziente, expected_fields["dati_paziente"])
-                st.markdown("<br>", unsafe_allow_html=True)
+                paziente = r.get("paziente_data", {})
+                render_section("🚑 Chiamata PS", r.get("chiamata_ps", {}), expected_fields["chiamata_ps"], cols_per_row=1)
+                st.write("")
+                render_section("👮 Autorità Presenti", r.get("autorita_presenti", {}), expected_fields["autorita_presenti"], cols_per_row=1)
+                st.write("")
+                render_section("🧑 Dati Paziente", paziente, expected_fields["dati_paziente"], cols_per_row=1)
+                st.write("")
                 dichiarati_da = r.get("dati_dichiarati_da")
                 st.markdown("### 👤 Dati dichiarati da")
                 st.markdown(f"{dichiarati_da}" if dichiarati_da else "N/A")
-                st.markdown("<br>", unsafe_allow_html=True)
-
-                render_section("❤️ Parametri Vitali", r.get("parametri_vitali", {}), expected_fields["parametri_vitali"])
-                st.markdown("<br>", unsafe_allow_html=True)
-                
-                provvedimenti = r.get("provvedimenti", {})
-
-                render_section("💊 Provvedimenti", provvedimenti, expected_fields["provvedimenti"])
-
-                st.markdown("<br>", unsafe_allow_html=True)
-                # Annotazioni
+                st.write("")
+                render_section("❤️ Parametri Vitali", r.get("parametri_vitali", {}), expected_fields["parametri_vitali"], cols_per_row=1)
+                st.write("")
+                render_section("💊 Provvedimenti", r.get("provvedimenti", {}), expected_fields["provvedimenti"], cols_per_row=1)
+                st.write("")
                 annotazioni = r.get("annotazioni", "")
                 st.markdown("### 📝 Annotazioni")
                 st.markdown(annotazioni or "Non sono presenti annotazioni.")
-                st.markdown("<br>", unsafe_allow_html=True)
-
-                # Decesso
+                st.write("")
                 decesso = r.get("decesso", {})
                 if decesso.get("decesso"):
                     st.warning(f"⚠️ Deceduto alle ore: {decesso.get('ora_decesso', 'N/A')}")
-                    st.markdown("<br>", unsafe_allow_html=True)
-
-            # Bottone per chiudere
+                    st.write("")
             if st.button("❌ Chiudi", key="close_modal"):
                 modal.close()
-                st.experimental_rerun()
+                del st.session_state["selected_referto"]
+
 
 
 
