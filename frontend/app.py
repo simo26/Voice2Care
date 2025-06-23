@@ -301,7 +301,7 @@ elif page == "Nuovo Referto":
 
         luogo_nascita = st.text_input("Luogo di Nascita", value=paziente.get("luogo_nascita", ""))
         residenza = st.text_input("Residenza", value=paziente.get("residenza", ""))
-        dichiarati_da = st.text_input("Dati Dichiarati da", value=paziente.get("dati_dichiarati_da", ""))
+        dichiarati_da = st.text_input("Dati Dichiarati da", value=d.get("dati_dichiarati_da", ""))
 
 
         st.markdown("<br>", unsafe_allow_html=True)  # riga vuota
