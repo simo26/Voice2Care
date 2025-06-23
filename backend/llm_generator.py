@@ -26,7 +26,7 @@ def generate_doctor_speech() -> str:
     eta = 2025 - int(data_nascita[:4])  # Età calcolata in base all'anno di nascita
     luogo_nascita = fake.city()  # Città di nascita
     residenza = f"{fake.city()}, {fake.street_name()} {fake.building_number()}"  # Indirizzo di residenza
-    dati_dichiarati_da = random.choice(["Paziente", "Familiare", "Personale sanitario", "Non identificato"])  # Fonte dei dati anagrafici
+    dati_dichiarati_da = random.choice(["Paziente", "Familiare", "Documento", "Non identificato"])  # Fonte dei dati anagrafici
 
     # TEMPI E DETTAGLI DELL’INTERVENTO 
     inizio_finestra_data_chiamata = datetime.now() - timedelta(days=365 * 10)  # Limite inferiore: 10 anni fa
